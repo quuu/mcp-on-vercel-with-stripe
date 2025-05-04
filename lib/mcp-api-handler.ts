@@ -18,7 +18,7 @@ interface SerializedRequest {
 }
 
 export function initializeMcpApiHandler(
-  initializeServer: (server: McpServer) => void,
+  initializeServer: (server: McpServer, email: string) => void,
   serverOptions: ServerOptions = {}
 ) {
   const maxDuration =
@@ -52,6 +52,9 @@ export function initializeMcpApiHandler(
     req: IncomingMessage,
     res: ServerResponse
   ) {
+    const searchParams = new URL(req.url || "", "https://example.com")
+      .searchParams;
+    const email = searchParams.get("email") || "test@test.com";
     await redisPromise;
     const url = new URL(req.url || "", "https://example.com");
     if (url.pathname === "/mcp") {
@@ -94,7 +97,7 @@ export function initializeMcpApiHandler(
           serverOptions
         );
 
-        initializeServer(statelessServer);
+        initializeServer(statelessServer, email);
         await statelessServer.connect(statelessTransport);
       }
       await statelessTransport.handleRequest(req, res);
@@ -110,7 +113,7 @@ export function initializeMcpApiHandler(
         },
         serverOptions
       );
-      initializeServer(server);
+      initializeServer(server, email);
 
       servers.push(server);
 

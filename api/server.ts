@@ -3,7 +3,7 @@ import { initializeMcpApiHandler } from "../lib/mcp-api-handler";
 import { registerPaidTool } from "@stripe/agent-toolkit/modelcontextprotocol";
 
 const handler = initializeMcpApiHandler(
-  (server) => {
+  (server, email) => {
     // Add more tools, resources, and prompts here
     server.tool("echo", { message: z.string() }, async ({ message }) => ({
       content: [{ type: "text", text: `Tool echo: ${message}` }],
@@ -23,9 +23,9 @@ const handler = initializeMcpApiHandler(
         };
       },
       {
-        priceId: "{{PRICE_ID}}",
-        successUrl: "{{CALLBACK_URL}}",
-        userEmail: "{{EMAIL}}",
+        priceId: process.env.STRIPE_PRICE_ID ?? "",
+        successUrl: "https://mcp-on-vercel-with-stripe.vercel.app",
+        userEmail: email,
         state: {
           stripe: {
             customerId: "{{CUSTOMER_ID}}",
