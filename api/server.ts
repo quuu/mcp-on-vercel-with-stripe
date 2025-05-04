@@ -26,14 +26,7 @@ const handler = initializeMcpApiHandler(
         priceId: process.env.STRIPE_PRICE_ID ?? "",
         successUrl: "https://mcp-on-vercel-with-stripe.vercel.app",
         userEmail: email,
-        state: {
-          stripe: {
-            customerId: "",
-            subscriptions: [],
-            paidToolCalls: [],
-            paidToolsToCheckoutSession: {},
-          },
-        },
+        state: {},
         setState: (state) => {},
         paymentReason:
           "You must pay a subscription to add two big numbers together.",
