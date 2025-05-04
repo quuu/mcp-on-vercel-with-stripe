@@ -28,7 +28,7 @@ const handler = initializeMcpApiHandler(
         userEmail: email,
         state: {
           stripe: {
-            customerId: "{{CUSTOMER_ID}}",
+            customerId: "",
             subscriptions: [],
             paidToolCalls: [],
             paidToolsToCheckoutSession: {},
